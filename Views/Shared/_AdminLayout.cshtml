@@ -1,0 +1,12 @@
+@{
+    var isEmployee = User.IsInRole("Çalışan") || User.IsInRole("Calisan");
+}
+@if (isEmployee)
+{
+    <li>
+        <a asp-area="Admin" asp-controller="ServiceManagement" asp-action="Index">
+            <i class="fas fa-cogs"></i>
+            Hizmet Yönetimi
+        </a>
+    </li>
+} 

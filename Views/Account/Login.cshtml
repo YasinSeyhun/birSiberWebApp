@@ -1,0 +1,90 @@
+@model BirSiberDanismanlik.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["RegisterSuccess"] != null)
+{
+    <div class="alert alert-success">@TempData["RegisterSuccess"]</div>
+}
+@if (TempData["RegisterError"] != null)
+{
+    <div class="alert alert-danger">@TempData["RegisterError"]</div>
+}
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #10131a;">
+    <div class="row w-100">
+        <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+            <div style="background:#10131a;display:inline-block;padding:20px;border-radius:16px;">
+                <img src="~/images/logo.png" alt="Logo" class="img-fluid mb-4" style="max-width: 320px;">
+            </div>
+            <h2 class="text-white fw-bold">birSiber</h2>
+            <p class="text-secondary">CYBER SECURITY SOLUTIONS</p>
+        </div>
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="card p-5 shadow-lg bg-dark text-white w-100" style="max-width: 400px;">
+                <h3 class="mb-4 text-center">Giriş Yap</h3>
+                <form method="post" asp-action="Login" asp-controller="Account" id="loginForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" placeholder="E-posta" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" placeholder="Şifre" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label"></label>
+                    </div>
+                    <button class="btn btn-primary w-100 mb-3" type="submit">Giriş Yap</button>
+                    <a href="/signin-google" class="btn btn-outline-light w-100 mb-3">
+                        <i class="fab fa-google"></i> Google ile Giriş Yap
+                    </a>
+                </form>
+                <div class="text-center mt-3">
+                    <span>Hesabınız yok mu?</span>
+                    <a href="/Account/Register" class="text-info">Kayıt Ol</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            $('#loginForm').submit(function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                var formData = $form.serialize();
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (result) {
+                        if (result && result.success) {
+                            showMessage('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
+                            setTimeout(function(){ window.location.href = '/'; }, 1200);
+                        } else if (result && result.error) {
+                            showMessage(result.error, 'danger');
+                        } else {
+                            showMessage('Giriş sırasında bir hata oluştu.', 'danger');
+                        }
+                    },
+                    error: function (xhr) {
+                        showMessage('Giriş sırasında bir hata oluştu.', 'danger');
+                    }
+                });
+            });
+            function showMessage(msg, type) {
+                var html = `<div class=\"alert alert-${type}\">${msg}</div>`;
+                $('.card').prepend(html);
+                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
+            }
+        });
+    </script>
+} 

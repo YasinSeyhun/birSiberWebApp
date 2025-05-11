@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Sıkça Sorulan Sorular";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var faqs = new[] {
+        new { Q = "Sızma testi (Pentest) nedir ve neden yapılmalıdır?", A = "Sızma testi, bilgi sistemlerinde bulunan güvenlik açıklarının kötü niyetli kişiler tarafından istismar edilmeden önce tespit edilmesi amacıyla yapılan kontrollü saldırı simülasyonudur. Bu testler, sistemlerin güvenlik seviyesini ölçer, zafiyetlerin risk düzeylerini belirler ve gerekli iyileştirme adımlarını ortaya koyar. Yasalara uygun ve etik sınırlar çerçevesinde gerçekleştirilir. Siber tehditlere karşı hazırlıklı olmak ve kurumsal itibarı korumak açısından sızma testleri düzenli olarak yapılmalıdır." },
+        new { Q = "Zafiyet taraması ile sızma testi arasındaki fark nedir?", A = "Zafiyet taraması, sistemlerin otomatik araçlarla taranarak bilinen açıkların tespit edilmesini sağlar. Genellikle yüzeysel analiz sunar ve manuel doğrulama yapılmaz. Sızma testi ise bu açıkların gerçek hayatta istismar edilip edilemeyeceğini gösteren, manuel ve derinlemesine analiz içeren bir süreçtir. Zafiyet taraması bir 'güvenlik röntgeni' ise, sızma testi bir 'canlı tehdit simülasyonudur'." },
+        new { Q = "SOC (Security Operations Center) hizmeti nedir? Kurumuma ne fayda sağlar?", A = "SOC, bilgi sistemlerinin 7/24 izlenmesini, anomali tespiti yapılmasını, tehditlere zamanında müdahale edilmesini sağlayan merkezi bir güvenlik operasyon merkezidir. SOC hizmeti sayesinde olası siber saldırılar erken aşamada tespit edilir, olaylara hızlı yanıt verilir ve bilgi varlıklarının sürekliliği korunur. Ayrıca, log yönetimi, SIEM kurulumu ve tehdit istihbaratı gibi birçok kritik süreç SOC kapsamındadır." },
+        new { Q = "Bir siber saldırı durumunda nasıl destek alabilirim? Olay müdahale süreciniz nasıl işler?", A = "Siber saldırı anında 7/24 destek hattımızla irtibata geçerek hızlıca olay bildiriminde bulunabilirsiniz. Uzman ekiplerimiz, olayın niteliğine göre dijital izleri korur, saldırı vektörlerini analiz eder, sistemi izole eder ve zararı sınırlandırır. Olay müdahale süreci, şu adımları içerir: Tespit, Yanıt, Kurtarma, Adli analiz, Raporlama ve önleyici öneriler." },
+        new { Q = "Verdiğiniz hizmetler hangi regülasyonlara (KVKK, ISO 27001, PCI-DSS vb.) uygundur?", A = "Tüm hizmetlerimiz; KVKK, ISO 27001, PCI-DSS, NIS2, COBIT ve benzeri yerel/uluslararası standartlara uyumlu şekilde tasarlanmakta ve uygulanmaktadır. Müşteri taleplerine göre özel denetim ve uyumluluk danışmanlıkları da sunmaktayız. Böylece kurumlar hem yasal yükümlülüklerini yerine getirir hem de siber dayanıklılığını artırır." },
+        new { Q = "Farkındalık eğitimi çalışanlarımızın güvenliğini gerçekten artırır mı?", A = "Evet. Günümüzde siber saldırıların %80'i insan hatasından kaynaklanmaktadır. Bu nedenle, teknik güvenlik önlemleri kadar insan faktörünün de eğitilmesi kritik önemdedir. Farkındalık eğitimleri; kimlik avı (phishing), sosyal mühendislik, parola güvenliği ve şüpheli e-posta tanıma gibi konularda çalışanların bilinçlenmesini sağlar ve saldırıya maruz kalma riskini ciddi oranda azaltır." },
+        new { Q = "Sunduğunuz hizmetleri uzaktan (remote) olarak da verebiliyor musunuz?", A = "Evet, çoğu siber güvenlik hizmetimizi uzaktan (remote) olarak sunmaktayız. Özellikle sızma testleri, zafiyet taramaları, log analizi, SIEM konfigürasyonu ve danışmanlık süreçleri, güvenli bağlantılar ve onaylı erişim protokolleriyle uzaktan gerçekleştirilebilmektedir. Böylece coğrafi sınırlardan bağımsız olarak hızlı ve etkili hizmet veriyoruz." },
+        new { Q = "Güvenlik duvarı, IDS/IPS ve VPN kurulumlarında hangi teknolojileri kullanıyorsunuz?", A = "Kullanılan teknolojiler, kurumun ihtiyaçlarına göre özelleştirilir. Genellikle tercih ettiğimiz güvenlik çözümleri şunlardır: Firewall: Fortinet, Palo Alto, Sophos, WatchGuard. IDS/IPS: Suricata, Snort, Cisco, TrendMicro. VPN: OpenVPN, IPsec, WireGuard, Cisco AnyConnect. Müşterinin mevcut altyapısına ve bütçesine göre açık kaynak ya da ticari çözümler öneriyoruz." },
+        new { Q = "Hizmet öncesi gizlilik ve veri güvenliği açısından nasıl bir sözleşme yapılıyor?", A = "Tüm hizmetlerimizde gizlilik, etik ve veri güvenliği en üst seviyede ele alınır. Hizmete başlamadan önce iki taraf arasında Gizlilik Sözleşmesi (NDA) imzalanır. Ayrıca hizmetin kapsamı, riskler ve sorumluluklar detaylı şekilde Hizmet Sözleşmesi içerisinde tanımlanır. Müşteri verileri yalnızca hizmet süresi boyunca, sınırlı yetkilere sahip personel tarafından erişilir." },
+        new { Q = "Şirketinize ait SIEM ve log yönetimi çözümleri bulut tabanlı mı, yerel mi çalışıyor?", A = "Her iki seçeneği de sunabiliyoruz. Müşterilerimizin tercihi doğrultusunda log yönetimi ve SIEM çözümlerini: Yerel (on-premise) kurulum şeklinde, Bulut tabanlı (cloud-based) yapı ile, veya hibrit modellerde hayata geçiriyoruz. Kullandığımız çözümler arasında ELK Stack, Wazuh, Graylog, Splunk gibi dünya standartlarında araçlar yer almakta olup, KVKK uyumluluğu göz önünde bulundurularak veri lokasyonu ve güvenliği özel olarak planlanmaktadır." }
+    };
+}
+<div class="container py-5">
+    <h2 class="fw-bold text-center mb-5">Sıkça Sorulan Sorular</h2>
+    <div class="accordion accordion-flush bg-transparent" id="faqAccordion">
+        @for (int i = 0; i < faqs.Length; i++)
+        {
+            <div class="accordion-item bg-dark text-white border-0 mb-2 rounded-3 shadow-sm">
+                <h2 class="accordion-header" id="heading@(i)">
+                    <button class="accordion-button collapsed bg-dark text-white fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(i)" aria-expanded="false" aria-controls="collapse@(i)">
+                        @faqs[i].Q
+                    </button>
+                </h2>
+                <div id="collapse@(i)" class="accordion-collapse collapse" aria-labelledby="heading@(i)" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        @faqs[i].A
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 

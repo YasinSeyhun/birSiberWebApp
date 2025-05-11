@@ -1,0 +1,34 @@
+@model BirSiberDanismanlik.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Profilim";
+}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark text-light shadow-lg border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="fa fa-user-circle fa-3x me-3 text-info"></i>
+                        <div>
+                            <h3 class="fw-bold mb-0">@Model.UserName</h3>
+                            <span class="text-secondary">@Model.Email</span>
+                        </div>
+                    </div>
+                    <hr class="border-secondary" />
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5">Kullanıcı Adı</dt>
+                        <dd class="col-sm-7">@Model.UserName</dd>
+                        <dt class="col-sm-5">E-posta</dt>
+                        <dd class="col-sm-7">@Model.Email</dd>
+                        <dt class="col-sm-5">Kayıt Tarihi</dt>
+                        <dd class="col-sm-7">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+                        <dt class="col-sm-5">Son Giriş</dt>
+                        <dd class="col-sm-7">@(Model.LastLoginAt?.ToString("dd.MM.yyyy HH:mm") ?? "-")</dd>
+                        <dt class="col-sm-5">Telefon Numarası</dt>
+                        <dd class="col-sm-7">@Model.PhoneNumber</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

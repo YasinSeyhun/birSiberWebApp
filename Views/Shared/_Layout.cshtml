@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - birSiberDanismanlik</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/birSiberDanismanlik.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-dark text-light">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo.png" alt="Logo" class="me-2" style="background:rgba(255,255,255,0.05);border-radius:50%;" />
+                    <span class="fw-bold">birSiberDanismanlik</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">Hakkımızda</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="hizmetlerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Hizmetlerimiz
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="hizmetlerDropdown">
+                                <li><a class="dropdown-item" href="#">Sızma Testleri (Pentest)</a></li>
+                                <li><a class="dropdown-item" href="#">Zafiyet Taramaları (Vulnerability Scanning)</a></li>
+                                <li><a class="dropdown-item" href="#">SOC Hizmetleri (Security Operations Center)</a></li>
+                                <li><a class="dropdown-item" href="#">SIEM Kurulumu ve Yönetimi</a></li>
+                                <li><a class="dropdown-item" href="#">Olay Müdahale ve Adli Bilişim (Incident Response & Forensics)</a></li>
+                                <li><a class="dropdown-item" href="#">Ağ ve Sistem Güvenliği Danışmanlığı</a></li>
+                                <li><a class="dropdown-item" href="#">Uygulama Güvenliği Testleri ve Kod Analizi</a></li>
+                                <li><a class="dropdown-item" href="#">Siber Güvenlik Farkındalık Eğitimleri</a></li>
+                                <li><a class="dropdown-item" href="#">Bulut Güvenliği (Cloud Security)</a></li>
+                                <li><a class="dropdown-item" href="#">DDoS Koruma ve Önleme Hizmetleri</a></li>
+                                <li><a class="dropdown-item" href="#">E-posta Güvenliği ve Kimlik Avı (Phishing) Simülasyonları</a></li>
+                                <li><a class="dropdown-item" href="#">Güvenlik Duvarı (Firewall), IDS/IPS, VPN Kurulum ve Konfigürasyonu</a></li>
+                                <li><a class="dropdown-item" href="#">Mobil Uygulama Güvenlik Testleri</a></li>
+                                <li><a class="dropdown-item" href="#">Sosyal Mühendislik Testleri</a></li>
+                                <li><a class="dropdown-item" href="#">Log Yönetimi ve Denetimi</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Instructors">Eğitmenlerimiz</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="FAQ">SSS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">İletişim</a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-warning fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">
+                                    <i class="fa fa-shield-alt"></i> Admin Paneli
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="d-flex gap-2 align-items-center ms-lg-3">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (!User.IsInRole("Admin") && !User.IsInRole("Çalışan"))
+                            {
+                                <a class="btn btn-success" asp-area="" asp-controller="Appointment" asp-action="Create">Randevu Al</a>
+                            }
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-user-circle"></i> @User.Identity.Name
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">Profilim</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Appointment" asp-action="Index">Randevularım</a></li>
+                                    @if (User.IsInRole("Çalışan") || User.IsInRole("Calisan"))
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Services" asp-action="Management">
+                                                <i class="fas fa-cogs"></i> Hizmet Yönetimi
+                                            </a>
+                                        </li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><form asp-area="" asp-controller="Account" asp-action="Logout" method="post"><button class="dropdown-item" type="submit">Çıkış Yap</button></form></li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="btn btn-success" asp-area="" asp-controller="Appointment" asp-action="Create">Randevu Al</a>
+                            <a class="btn btn-outline-light" asp-area="" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container py-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    @await Html.PartialAsync("_Footer")
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

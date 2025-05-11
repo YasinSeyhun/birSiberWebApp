@@ -1,0 +1,140 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* Custom Navbar & Dropdown Styles */
+.navbar-custom {
+    font-size: 1.15rem;
+    min-height: 70px;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.15);
+}
+.navbar-brand img {
+    width: 48px;
+    height: 48px;
+}
+.nav-link, .navbar-brand span {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.dropdown-menu {
+    background: #181c24;
+    border-radius: 1rem;
+    min-width: 340px;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+    animation: dropdownFadeIn 0.3s cubic-bezier(.4,2,.6,1) both;
+}
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.dropdown-item {
+    color: #e0e6ed;
+    padding: 0.75rem 1.5rem;
+    transition: background 0.2s, color 0.2s;
+}
+.dropdown-item:hover {
+    background: #23293a;
+    color: #00e6d0;
+}
+.navbar .btn {
+    font-size: 1.1rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 2rem;
+}
+.navbar-nav .nav-link {
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
+}
+@media (max-width: 991px) {
+    .navbar-nav .nav-link {
+        padding-right: 0.7rem;
+        padding-left: 0.7rem;
+    }
+    .dropdown-menu {
+        min-width: 220px;
+    }
+}
+
+/* Tablo hücrelerinde taşmayı engelle ve uzun isimleri ellipsis ile göster */
+/* KALDIRILDI: .table td, .table th { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; vertical-align: middle; } */
+/* KALDIRILDI: .table td[title] { cursor: help; } */
+
+.admin-panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.admin-card {
+    background: #20232a;
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10);
+    padding: 1.2rem 1rem 1rem 1rem;
+    min-width: 0;
+}
+.admin-card h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+    letter-spacing: 0.2px;
+}
+.admin-card table {
+    width: 100%;
+    table-layout: fixed;
+}
+.admin-card th, .admin-card td {
+    word-break: break-word;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+@media (max-width: 900px) {
+    .admin-panel-grid {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .admin-card {
+        max-width: 100%;
+    }
+}
+.admin-card.users-card,
+.admin-card.appointments-card {
+    max-width: none;
+    min-width: 340px;
+    grid-column: auto;
+}

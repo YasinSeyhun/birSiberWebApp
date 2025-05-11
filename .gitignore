@@ -1,0 +1,40 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Environment files
+.env
+*.env
+appsettings.*.json
+!appsettings.json
+!appsettings.Example.json
+
+# Google OAuth
+*client_secret*.json
+
+# IDE
+.vs/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn 

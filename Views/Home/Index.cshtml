@@ -1,0 +1,285 @@
+﻿@{
+    ViewData["Title"] = "Siber Güvenlikte Gücünüz";
+}
+
+<!-- Matrix Effect Canvas -->
+<canvas id="matrix-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.5;"></canvas>
+
+<div class="container position-relative" style="z-index:1;">
+    <div class="row justify-content-center align-items-center" style="min-height:60vh;">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-3 fw-bold mb-3">Siber Güvenlikte Gücünüz</h1>
+            <p class="lead mb-4">Dijital dünyada güvenliğinizi bir adım öteye taşıyoruz.</p>
+            <div class="d-flex justify-content-center gap-3 mb-5">
+                <!-- Randevu Al butonu kaldırıldı -->
+            </div>
+        </div>
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="row justify-content-center mt-5 g-4">
+            @if (ViewBag.Appointments != null)
+            {
+                var appts = ViewBag.Appointments as IEnumerable<BirSiberDanismanlik.Models.Appointment>;
+                if (appts != null && appts.Any())
+                {
+                    foreach (var appt in appts)
+                    {
+                        <div class="col-md-4">
+                            <div class="card bg-dark text-light shadow border-0 mb-4 randevu-card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fa fa-calendar-check fa-2x text-success me-3"></i>
+                                        <h5 class="fw-bold mb-0 flex-grow-1">@appt.ServiceType</h5>
+                                        <span class="badge rounded-pill @(appt.Status=="Onaylandı" ? "bg-success" : appt.Status=="İptal Edildi" ? "bg-danger" : "bg-warning text-dark")">@appt.Status</span>
+                                    </div>
+                                    <hr class="border-secondary my-2" />
+                                    <p class="mb-1"><i class="fa fa-clock me-2"></i> @appt.AppointmentDate.ToString("dd.MM.yyyy HH:mm")</p>
+                                    @if (!string.IsNullOrEmpty(appt.Notes))
+                                    {
+                                        <p class="mb-0"><i class="fa fa-sticky-note me-2"></i> @appt.Notes</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center text-secondary">Henüz bir randevunuz yok.</div>
+                }
+            }
+        </div>
+    }
+    <!-- HİZMETLER CARD GRID BAŞLANGIÇ -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5 matrix-grid">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🛡️ Sızma Testleri (Pentest)</h5>
+                    <p class="card-text">Sistemlerinize yetkisiz erişim sağlanmadan önce zayıf noktaların tespit edilmesini sağlar. Gerçek dünya senaryolarıyla yapılan saldırı simülasyonları içerir.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🔍 Zafiyet Taramaları (Vulnerability Scanning)</h5>
+                    <p class="card-text">Ağ, sistem ve uygulamalarınızdaki güvenlik açıklarını otomatik olarak tarar ve raporlar. Sürekli güvenlik izleme süreçlerinin temelini oluşturur.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🏢 SOC Hizmetleri (Security Operations Center)</h5>
+                    <p class="card-text">24/7 izleme, tehdit tespiti, olay müdahalesi ve raporlama hizmetleriyle kurumunuzun dijital varlıklarını koruyan merkezi güvenlik operasyonlarıdır.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">📊 SIEM Kurulumu ve Yönetimi</h5>
+                    <p class="card-text">Güvenlik olaylarını tek bir platformda toplayarak analiz eder. Anormallikleri tespit edip erken müdahale sağlar. Uyumluluk raporlamasını da kolaylaştırır.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🧩 Olay Müdahale ve Adli Bilişim (Incident Response & Forensics)</h5>
+                    <p class="card-text">Siber olaylara hızlı ve etkili müdahale sağlanır. Delil toplama, analiz ve hukuki süreçler için adli bilişim incelemeleri gerçekleştirilir.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🌐 Ağ ve Sistem Güvenliği Danışmanlığı</h5>
+                    <p class="card-text">Kurumsal ağ altyapınızın güvenliğini sağlamaya yönelik yapılandırma, segmentasyon, erişim kontrolü ve güncel tehdit analizleri sunulur.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🧪 Uygulama Güvenliği Testleri ve Kod Analizi</h5>
+                    <p class="card-text">Web ve mobil uygulamalardaki güvenlik açıkları dinamik ve statik testlerle ortaya çıkarılır. Kod kalitesi ve güvenliği sağlanır.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🎓 Siber Güvenlik Farkındalık Eğitimleri</h5>
+                    <p class="card-text">Kurum çalışanlarına yönelik sosyal mühendislik, oltalama ve temel güvenlik farkındalığı eğitimleri ile iç tehditlerin önüne geçilir.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">☁️ Bulut Güvenliği (Cloud Security)</h5>
+                    <p class="card-text">AWS, Azure ve diğer platformlar üzerinde kimlik yönetimi, veri güvenliği ve yapılandırma denetimleriyle bulut ortamlarınız koruma altına alınır.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🛡️ DDoS Koruma ve Önleme Hizmetleri</h5>
+                    <p class="card-text">Yüksek hacimli dağıtık hizmet engelleme (DDoS) saldırılarına karşı koruma sağlar. Trafik filtreleme ve saldırı tespiti hizmetleri sunulur.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">📧 E-posta Güvenliği ve Kimlik Avı (Phishing) Simülasyonları</h5>
+                    <p class="card-text">Kimlik avı saldırılarına karşı kurum personelini test eder, farkındalık geliştirir. E-posta filtreleme ve koruma sistemleri kurulur.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🔐 Güvenlik Duvarı (Firewall), IDS/IPS, VPN Kurulumu ve Konfigürasyonu</h5>
+                    <p class="card-text">Kurumsal ağ trafiğini izleyen, filtreleyen ve koruyan güvenlik altyapıları kurulur. Uzaktan güvenli erişim için VPN çözümleri sağlanır.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">📱 Mobil Uygulama Güvenlik Testleri</h5>
+                    <p class="card-text">iOS ve Android uygulamalar üzerinde yapılan detaylı güvenlik analizleri ile mobil tehditlere karşı tam kapsamlı koruma sağlanır.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">🕵️ Sosyal Mühendislik Testleri</h5>
+                    <p class="card-text">İnsan faktörünü hedef alan saldırı simülasyonları ile personelinizin güvenlik farkındalığı test edilir. Telefon, e-posta ve fiziksel saldırı vektörleri değerlendirilir.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 matrix-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-2">📁 Log Yönetimi ve Denetimi</h5>
+                    <p class="card-text">Sistem ve ağ loglarının toplanması, saklanması ve denetlenmesi ile olayların izlenmesi, yasal yükümlülüklerin yerine getirilmesi sağlanır.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- HİZMETLER CARD GRID BİTİŞ -->
+</div>
+
+@section Scripts {
+<script>
+// Matrix effect
+const canvas = document.getElementById('matrix-bg');
+const ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+const letters = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const fontSize = 18;
+const columns = Math.floor(width / fontSize);
+const drops = Array(columns).fill(1);
+function drawMatrix() {
+    ctx.fillStyle = 'rgba(24,28,36,0.15)';
+    ctx.fillRect(0, 0, width, height);
+    ctx.font = fontSize + 'px monospace';
+    ctx.fillStyle = '#00ff41';
+    for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix, 50);
+window.addEventListener('resize', () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+});
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+.randevu-card {
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
+}
+.randevu-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 6px 32px 0 rgba(0,255,180,0.18);
+    border: 1.5px solid #00e6d0;
+}
+/* Matrix Card Grid */
+.matrix-card {
+    background: rgba(20, 30, 20, 0.75);
+    border: 2px solid rgba(0,255,65,0.25);
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 24px 0 rgba(0,255,65,0.10), 0 1.5px 0 0 #00ff41 inset;
+    backdrop-filter: blur(6px) saturate(1.2);
+    transition: box-shadow 0.2s, border 0.2s, transform 0.18s;
+    color: #e0ffe0;
+    position: relative;
+    overflow: hidden;
+}
+.matrix-card:hover {
+    border: 2.5px solid #00ff41;
+    box-shadow: 0 0 32px 4px #00ff41, 0 2px 32px 0 rgba(0,255,65,0.18);
+    transform: translateY(-7px) scale(1.035);
+}
+.matrix-card .card-title {
+    color: #fff;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.5px;
+    font-size: 1.18rem;
+    text-shadow: 0 0 8px #fff, 0 0 1px #fff;
+}
+.matrix-card .card-text {
+    font-family: 'Share Tech Mono', monospace;
+    color: #fff;
+    font-size: 1.01rem;
+    text-shadow: 0 0 4px #fff;
+}
+.matrix-card::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -40%;
+    width: 180%;
+    height: 180%;
+    background: linear-gradient(120deg, transparent 60%, #00ff4133 100%);
+    filter: blur(18px);
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+}
+.matrix-card .card-body {
+    position: relative;
+    z-index: 1;
+}
+/* Grid spacing */
+.row.matrix-grid {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+@@media (max-width: 767px) {
+    .matrix-card {
+        font-size: 0.97rem;
+    }
+}
+</style>
+}

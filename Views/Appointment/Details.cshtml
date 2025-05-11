@@ -1,0 +1,26 @@
+@model BirSiberDanismanlik.Models.Appointment
+@{
+    ViewData["Title"] = "Randevu Detay";
+}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card bg-dark text-light shadow-lg border-0">
+                <div class="card-body p-4">
+                    <h2 class="mb-4 fw-bold text-center">Randevu Detay</h2>
+                    <dl class="row mb-0">
+                        <dt class="col-5">Hizmet Türü</dt>
+                        <dd class="col-7">@Model.ServiceType</dd>
+                        <dt class="col-5">Tarih ve Saat</dt>
+                        <dd class="col-7">@Model.AppointmentDate.ToString("dd.MM.yyyy HH:mm")</dd>
+                        <dt class="col-5">Durum</dt>
+                        <dd class="col-7">@Model.Status</dd>
+                        <dt class="col-5">Notlar</dt>
+                        <dd class="col-7">@Model.Notes</dd>
+                    </dl>
+                    <a asp-action="Index" class="btn btn-outline-light w-100 mt-4">Geri Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

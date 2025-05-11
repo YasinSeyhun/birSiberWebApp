@@ -1,0 +1,118 @@
+@model BirSiberDanismanlik.Models.Appointment
+@{
+    ViewData["Title"] = "Yeni Randevu Oluştur";
+    var hizmetler = new[] {
+        "Sızma Testleri (Pentest)",
+        "Zafiyet Taramaları (Vulnerability Scanning)",
+        "SOC Hizmetleri (Security Operations Center)",
+        "SIEM Kurulumu ve Yönetimi",
+        "Olay Müdahale ve Adli Bilişim (Incident Response & Forensics)",
+        "Ağ ve Sistem Güvenliği Danışmanlığı",
+        "Uygulama Güvenliği Testleri ve Kod Analizi",
+        "Siber Güvenlik Farkındalık Eğitimleri",
+        "Bulut Güvenliği (Cloud Security)",
+        "DDoS Koruma ve Önleme Hizmetleri",
+        "E-posta Güvenliği ve Kimlik Avı (Phishing) Simülasyonları",
+        "Güvenlik Duvarı (Firewall), IDS/IPS, VPN Kurulum ve Konfigürasyonu",
+        "Mobil Uygulama Güvenlik Testleri",
+        "Sosyal Mühendislik Testleri",
+        "Log Yönetimi ve Denetimi"
+    };
+    var egitmenler = new[] {
+        "Ahmet Hamdi Atalay",
+        "Besim Altınok",
+        "Mesut Kalyoncu",
+        "Tufan Volkan Karabacak",
+        "Enes Aslanbakan",
+        "Burak Dayıoğlu",
+        "Enes Tayboğa",
+        "Alper Kandemir",
+        "Yasin Seyhun"
+    };
+}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card bg-dark text-light shadow-lg border-0">
+                <div class="card-body p-4">
+                    <h2 class="mb-4 fw-bold text-center">Yeni Randevu Oluştur</h2>
+                    <form asp-action="Create" method="post" autocomplete="off" id="appointmentCreateForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="mb-3">
+                            <label asp-for="ServiceType" class="form-label">Hizmet Seçiniz</label>
+                            <select asp-for="ServiceType" class="form-select bg-dark text-light border-secondary">
+                                <option value="">Hizmet Seçiniz</option>
+                                @foreach (var h in hizmetler) {
+                                    <option value="@h">@h</option>
+                                }
+                            </select>
+                            <span asp-validation-for="ServiceType" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="AppointmentDate" class="form-label">Randevu Tarihi</label>
+                            <input asp-for="AppointmentDate" type="datetime-local" class="form-control bg-dark text-light border-secondary" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Eğitmen Seçiniz</label>
+                            <select asp-for="InstructorId" class="form-select bg-dark text-light border-secondary">
+                                <option value="">Eğitmen Seçiniz</option>
+                                @if (ViewBag.Instructors != null)
+                                {
+                                    foreach (var instructor in ViewBag.Instructors)
+                                    {
+                                        <option value="@instructor.Id">@instructor.FullName</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="InstructorId" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Notes" class="form-label">Not giriniz</label>
+                            <textarea asp-for="Notes" class="form-control bg-dark text-light border-secondary"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger small"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Kaydet</button>
+                        <a asp-action="Index" class="btn btn-outline-light w-100 mt-2">İptal</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            $('#appointmentCreateForm').submit(function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                var formData = $form.serialize();
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (result) {
+                        if (result && result.success) {
+                            $form[0].reset();
+                            showMessage('Randevu başarıyla oluşturuldu!', 'success');
+                            setTimeout(function(){ window.location.href = '/Appointment/Index'; }, 1200);
+                        } else if (result && result.error) {
+                            showMessage(result.error, 'danger');
+                        } else {
+                            showMessage('Randevu oluşturulurken bir hata oluştu.', 'danger');
+                        }
+                    },
+                    error: function (xhr) {
+                        showMessage('Randevu oluşturulurken bir hata oluştu.', 'danger');
+                    }
+                });
+            });
+            function showMessage(msg, type) {
+                var html = `<div class="alert alert-${type}">${msg}</div>`;
+                $('.card').prepend(html);
+                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
+            }
+        });
+    </script>
+} 

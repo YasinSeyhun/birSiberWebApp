@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Eğitmenlerimiz";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Eğitmen listesi güncel ve açıklamalı
+    var instructors = new[] {
+        new { Name = "Ahmet Hamdi Atalay", Title = "Siber Güvenlik Uzmanı", Image = "ahmet-hamdi-atalay.jpg", Bio = "Türkiye'nin önde gelen siber güvenlik liderlerinden olan Ahmet Hamdi Atalay, kamu ve özel sektörde kritik altyapıların korunması, siber tehdit istihbaratı ve ulusal güvenlik projelerinde uzun yıllara dayanan tecrübeye sahiptir. Birçok ulusal ve uluslararası konferansta konuşmacı olarak yer almıştır." },
+        new { Name = "Besim Altınok", Title = "Siber Güvenlik Uzmanı", Image = "besim-altinok.jpeg", Bio = "Ağ güvenliği, penetrasyon testleri ve sızma testleri alanında uzman olan Besim Altınok, çeşitli kurumlarda danışmanlık ve eğitimler vermektedir. Özellikle saldırı simülasyonları ve güvenlik farkındalığı eğitimlerinde aktif rol almaktadır." },
+        new { Name = "Mesut Kalyoncu", Title = "Siber Güvenlik Uzmanı", Image = "mesut-kalyoncu.jpeg", Bio = "SOC (Security Operations Center) yönetimi, tehdit avcılığı ve olay müdahale süreçlerinde derin bilgiye sahip olan Mesut Kalyoncu, sektörde birçok büyük ölçekli projede yer almış ve genç uzmanların yetişmesine katkı sağlamıştır." },
+        new { Name = "Tufan Volkan Karabacak", Title = "Siber Güvenlik Uzmanı", Image = "tufan-volkan-karabacak.jpeg", Bio = "Adli bilişim, dijital delil inceleme ve olay müdahale konularında uzman olan Tufan Volkan Karabacak, siber suçlarla mücadelede ve adli analizlerde önemli projelere imza atmıştır." },
+        new { Name = "Enes Aslanbakan", Title = "Siber Güvenlik Uzmanı", Image = "enes-aslanbakan.jfif", Bio = "Uygulama güvenliği, yazılım denetimi ve güvenli kod geliştirme alanlarında çalışan Enes Aslanbakan, genç yaşına rağmen birçok kurumda uygulama güvenliği danışmanlığı yapmıştır." },
+        new { Name = "Burak Dayıoğlu", Title = "Siber Güvenlik Uzmanı", Image = "burak-dayioglu.jpeg", Bio = "Ağ güvenliği, firewall ve IDS/IPS teknolojileri konusunda uzman olan Burak Dayıoğlu, kurumların ağ altyapılarını güvenli hale getirmek için çeşitli projelerde görev almıştır." },
+        new { Name = "Enes Tayboğa", Title = "Siber Güvenlik Uzmanı", Image = "enes-tayboga.jpeg", Bio = "Sosyal mühendislik, siber farkındalık ve insan odaklı saldırı türleri üzerine çalışan Enes Tayboğa, kurum içi eğitimler ve simülasyonlarla çalışanların güvenlik bilincini artırmaktadır." },
+        new { Name = "Alper Kandemir", Title = "Siber Güvenlik Uzmanı", Image = "alper-kandemir.jpeg", Bio = "Zafiyet tarama, sızma testleri ve güvenlik denetimleri alanında deneyimli olan Alper Kandemir, birçok sektörde güvenlik açıklarının tespit edilmesi ve raporlanmasında aktif rol oynamaktadır." },
+        new { Name = "Yasin Seyhun", Title = "Siber Güvenlik Uzmanı", Image = "yasin-seyhun.jpeg", Bio = "Bulut güvenliği, yeni nesil teknolojiler ve siber tehditlerin önlenmesi üzerine çalışan Yasin Seyhun, sektörde yenilikçi çözümler geliştiren bir uzmandır." }
+    };
+}
+<style>
+    .instructor-card {
+        background: #181b22;
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 24px #0006;
+        transition: transform .2s, box-shadow .2s;
+        border: none;
+    }
+    .instructor-card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 8px 32px #00ffe799;
+    }
+    .instructor-img {
+        border-radius: 50%;
+        object-fit: cover;
+        width: 120px;
+        height: 120px;
+        border: 3px solid #00ffe7;
+        margin-top: -60px;
+        background: #10131a;
+    }
+</style>
+<div class="container py-5">
+    <h2 class="fw-bold text-center mb-5">Eğitmenlerimiz</h2>
+    <div class="row g-4 justify-content-center">
+        @foreach (var ins in instructors)
+        {
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch">
+                <div class="card instructor-card w-100 text-center p-4 position-relative">
+                    <img src="~/images/@ins.Image" alt="@ins.Name" class="instructor-img mx-auto shadow">
+                    <div class="card-body mt-3">
+                        <h5 class="card-title text-white">@ins.Name</h5>
+                        <p class="card-text text-info">@ins.Title</p>
+                        <p class="card-text text-secondary small">@ins.Bio</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 

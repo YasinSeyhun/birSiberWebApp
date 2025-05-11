@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Hakkımızda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .section-divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 3rem 0 2rem 0;
+    }
+    .section-divider span {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #00ffe7;
+        letter-spacing: 1px;
+        background: #181b22;
+        padding: 0 1.5rem;
+        border-radius: 2rem;
+        z-index: 1;
+    }
+    .section-divider::before, .section-divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 2px solid #00ffe7;
+        opacity: 0.2;
+        margin: 0 1rem;
+    }
+    .about-hero h1, .section-divider span {
+        text-shadow: 0 2px 16px #000a;
+    }
+</style>
+<div class="about-hero" style="background: url('/images/about-bg.jpg') center/cover; min-height: 350px;">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100 text-white" style="background:rgba(0,0,0,0.5); min-height:350px;">
+        <h1 class="display-3 fw-bold">Hakkımızda</h1>
+        <nav>
+            <a href="/" class="text-white">Ana Sayfa</a> - <span>Hakkımızda</span>
+        </nav>
+    </div>
+</div>
+<div class="container py-5">
+    <h2 class="fw-bold mb-4">Hakkımızda – birSiberDanismanlik</h2>
+    <p>
+        Dijital dünyanın hızla büyüdüğü ve tehditlerin her geçen gün daha karmaşık hale geldiği günümüzde, birSiberDanismanlik olarak bireylerin, kurumların ve kamu kuruluşlarının siber güvenlik ihtiyaçlarına bütüncül çözümler sunuyoruz. Kurulduğumuz günden bu yana temel amacımız; bilgi varlıklarını tehdit eden risklere karşı yenilikçi, güvenilir ve sürdürülebilir savunma mekanizmaları geliştirmek olmuştur.
+    </p>
+    <p>
+        Alanında uzman mühendis ve güvenlik analistlerinden oluşan ekibimizle, siber tehditleri proaktif olarak tespit ediyor, önlüyor ve gerektiğinde hızlı ve etkili müdahale süreçleri yürütüyoruz. Hizmet portföyümüz; sızma testlerinden (penetrasyon testleri), SOC (Security Operations Center) yönetimine, güvenlik farkındalık eğitimlerinden, zafiyet taramalarına kadar geniş bir yelpazeyi kapsar. Her biri sektörel regülasyonlara (KVKK, ISO 27001, PCI-DSS, NIS2 vb.) uygun şekilde tasarlanan hizmetlerimizle müşterilerimize teknik ve yasal yönden tam uyumluluk sağlıyoruz.
+    </p>
+    <p>
+        Müşteri odaklı çalışma prensibimiz gereği, her kurumun yapısına ve ihtiyaçlarına özel çözümler geliştiriyor, sadece bugünün tehditlerine karşı değil, gelecekte karşılaşılabilecek risklere karşı da dirençli bir yapı kurulmasına öncülük ediyoruz. Red Team / Blue Team senaryoları, bulut güvenliği, e-posta saldırıları, sosyal mühendislik ve iç tehdit yönetimi gibi çok katmanlı güvenlik stratejileriyle hem teknolojik hem de organizasyonel güvenliği birlikte ele alıyoruz.
+    </p>
+    <p>
+        birSiberDanismanlik olarak inancımız, siber güvenliğin sadece teknik bir süreç değil; aynı zamanda bir vizyon, bir kültür ve bir yaşam biçimi olduğudur. Bu vizyon doğrultusunda, etik değerleri ön planda tutan, bilgi gizliliğine saygılı, güven inşa eden ve sürekli gelişmeyi ilke edinen bir anlayışla çalışıyoruz.
+    </p>
+    <p>
+        Geleceğin güvenli dijital dünyasına katkı sağlamak için durmadan çalışıyor, yalnızca çözüm sunan değil, aynı zamanda rehberlik eden bir iş ortağı olmayı hedefliyoruz.
+    </p>
+    <div class="section-divider"><span>Vizyonumuz</span></div>
+    <p>
+        Dijital dönüşümün hızla ivme kazandığı çağımızda, kurumların güvenliğini yalnızca bugünün tehditlerine karşı değil, gelecekte karşılaşabilecekleri karmaşık ve gelişmiş saldırılara karşı da sürdürülebilir biçimde sağlayabilmek en büyük önceliğimizdir. Bu doğrultuda vizyonumuz; siber güvenlik alanında yenilikçi, etik, proaktif ve küresel standartlara uygun çözümler geliştiren, müşterilerine sadece hizmet değil aynı zamanda stratejik değer sunan, bölgesel ve uluslararası düzeyde tanınan bir teknoloji markası olmaktır.
+    </p>
+    <p>
+        Amacımız; siber tehditlerin önüne geçen teknolojiler ve metodolojiler geliştirerek dijital dünyayı daha güvenli bir yer haline getirmek, güvenlik denince akla gelen ilk isimlerden biri olmaktır. Vizyonumuzu gerçekleştirmek için, araştırma-geliştirme faaliyetlerine yatırım yapmayı, sektörel gelişmeleri yakından takip etmeyi ve sürekli kendini yenileyen bir organizasyon kültürü oluşturmayı temel ilke olarak benimsiyoruz.
+    </p>
+    <div class="section-divider"><span>Misyonumuz</span></div>
+    <p>
+        birSiberDanismanlik olarak misyonumuz; kamu kurumları, özel sektör kuruluşları ve bireylerin dijital varlıklarını tehdit eden risklere karşı etkin, hızlı, özelleştirilmiş ve güvenilir çözümler sunmaktır.
+    </p>
+    <p>
+        Siber güvenliği yalnızca bir teknoloji sorunu değil, aynı zamanda kurumsal farkındalık, süreç yönetimi ve insan faktörüyle entegre edilen bir güvenlik yaklaşımı olarak görüyor, bu çok boyutlu anlayışı tüm hizmet süreçlerimize entegre ediyoruz.
+    </p>
+    <p>
+        Her müşterimizin ihtiyaçlarını özgün kabul eder, sadece teknik güvenlik önlemleriyle değil; aynı zamanda çalışan eğitimi, organizasyonel yapılandırma, uyumluluk denetimi ve sürekli izleme mekanizmalarıyla kapsamlı bir güvenlik mimarisi sunarız.
+    </p>
+    <p>
+        Amacımız; müşterilerimizin sadece bugün değil, gelecek 5-10 yıl içerisinde karşılaşabileceği tehditlere karşı da hazırlıklı, dirençli ve farkındalık sahibi bir dijital yapıya sahip olmalarını sağlamaktır.
+    </p>
+    <p>
+        Bununla birlikte etik değerlere sıkı sıkıya bağlı kalarak; şeffaflık, gizlilik, bilgi bütünlüğü ve süreklilik ilkelerinden asla taviz vermeden çalışır, güvenilir iş ortağı olmanın sorumluluğuyla hareket ederiz.
+    </p>
+</div> 

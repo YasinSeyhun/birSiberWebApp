@@ -1,0 +1,52 @@
+@model BirSiberDanismanlik.Models.Appointment
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Randevu Düzenle";
+}
+
+<h2>Randevu Düzenle</h2>
+<div class="card mt-4">
+    <div class="card-body">
+        <form asp-action="EditAppointment" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ServiceType">Hizmet Türü</label>
+                <select asp-for="ServiceType" class="form-control" required>
+                    <option value="Sızma Testleri (Pentest)">Sızma Testleri (Pentest)</option>
+                    <option value="Zafiyet Taramaları (Vulnerability Scanning)">Zafiyet Taramaları (Vulnerability Scanning)</option>
+                    <option value="SOC Hizmetleri (Security Operations Center)">SOC Hizmetleri (Security Operations Center)</option>
+                    <option value="SIEM Kurulumu ve Yönetimi">SIEM Kurulumu ve Yönetimi</option>
+                    <option value="Olay Müdahale ve Adli Bilişim (Incident Response & Forensics)">Olay Müdahale ve Adli Bilişim (Incident Response & Forensics)</option>
+                    <option value="Ağ ve Sistem Güvenliği Danışmanlığı">Ağ ve Sistem Güvenliği Danışmanlığı</option>
+                    <option value="Uygulama Güvenliği Testleri ve Kod Analizi">Uygulama Güvenliği Testleri ve Kod Analizi</option>
+                    <option value="Siber Güvenlik Farkındalık Eğitimleri">Siber Güvenlik Farkındalık Eğitimleri</option>
+                    <option value="Bulut Güvenliği (Cloud Security)">Bulut Güvenliği (Cloud Security)</option>
+                    <option value="DDoS Koruma ve Önleme Hizmetleri">DDoS Koruma ve Önleme Hizmetleri</option>
+                    <option value="E-posta Güvenliği ve Kimlik Avı (Phishing) Simülasyonları">E-posta Güvenliği ve Kimlik Avı (Phishing) Simülasyonları</option>
+                    <option value="Güvenlik Duvarı (Firewall), IDS/IPS, VPN Kurulum ve Konfigürasyonu">Güvenlik Duvarı (Firewall), IDS/IPS, VPN Kurulum ve Konfigürasyonu</option>
+                    <option value="Mobil Uygulama Güvenlik Testleri">Mobil Uygulama Güvenlik Testleri</option>
+                    <option value="Sosyal Mühendislik Testleri">Sosyal Mühendislik Testleri</option>
+                    <option value="Log Yönetimi ve Denetimi">Log Yönetimi ve Denetimi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppointmentDate">Tarih</label>
+                <input asp-for="AppointmentDate" class="form-control" type="datetime-local" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="Status">Durum</label>
+                <select asp-for="Status" class="form-control" required>
+                    <option value="Beklemede">Beklemede</option>
+                    <option value="Onaylandı">Onaylandı</option>
+                    <option value="İptal Edildi">İptal Edildi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes">Notlar</label>
+                <input asp-for="Notes" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a asp-action="Management" class="btn btn-secondary">İptal</a>
+        </form>
+    </div>
+</div> 

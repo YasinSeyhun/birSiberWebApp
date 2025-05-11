@@ -1,0 +1,179 @@
+@model List<BirSiberDanismanlik.Models.Appointment>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Hizmet Yönetimi";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
+            <div class="card shadow mb-4 bg-dark text-light">
+                <div class="card-header border-bottom border-secondary">
+                    <h3 class="mb-0"><i class="fas fa-cogs"></i> Hizmet Yönetimi</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-3">Randevu İstatistikleri</h5>
+                    <form asp-action="Management" method="get" class="mb-3">
+                        <div class="input-group">
+                            <input type="text" name="searchString" class="form-control" placeholder="Hizmet türü ile ara..." />
+                            <button type="submit" class="btn btn-primary">Ara</button>
+                        </div>
+                    </form>
+                    <div class="mb-3">
+                        <a asp-action="Management" asp-route-sortOrder="date" class="btn btn-outline-info btn-sm me-2">Tarihe Göre Sırala</a>
+                        <a asp-action="Management" asp-route-sortOrder="status" class="btn btn-outline-info btn-sm">Duruma Göre Sırala</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover table-bordered align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Kullanıcı</th>
+                                    <th>Hizmet Türü</th>
+                                    <th>Tarih</th>
+                                    <th>Durum</th>
+                                    <th>Notlar</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var appointment in Model)
+                                {
+                                    <tr>
+                                        <td>@appointment.Id</td>
+                                        <td>@appointment.UserId</td>
+                                        <td>@appointment.ServiceType</td>
+                                        <td>@appointment.AppointmentDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>@appointment.Status</td>
+                                        <td>@appointment.Notes</td>
+                                        <td>
+                                            <a asp-action="EditAppointment" asp-route-id="@appointment.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                                            <form asp-action="DeleteAppointment" method="post" style="display: inline;" class="deleteAppointmentForm">
+                                                <input type="hidden" name="id" value="@appointment.Id" />
+                                                <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow bg-dark text-light">
+                <div class="card-header border-bottom border-secondary">
+                    <h5 class="mb-0">Yeni Randevu Ekle</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="AddAppointment" method="post" class="row g-3" id="addAppointmentForm">
+                        <div class="col-md-3">
+                            <label for="UserId" class="form-label">Kullanıcı ID</label>
+                            <input type="text" class="form-control" id="UserId" name="UserId" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="ServiceType" class="form-label">Hizmet Türü</label>
+                            <select class="form-select" id="ServiceType" name="ServiceType" required>
+                                <option value="Sızma Testleri (Pentest)">Sızma Testleri (Pentest)</option>
+                                <option value="Zafiyet Taramaları (Vulnerability Scanning)">Zafiyet Taramaları (Vulnerability Scanning)</option>
+                                <option value="SOC Hizmetleri (Security Operations Center)">SOC Hizmetleri (Security Operations Center)</option>
+                                <option value="SIEM Kurulumu ve Yönetimi">SIEM Kurulumu ve Yönetimi</option>
+                                <option value="Olay Müdahale ve Adli Bilişim (Incident Response & Forensics)">Olay Müdahale ve Adli Bilişim (Incident Response & Forensics)</option>
+                                <option value="Ağ ve Sistem Güvenliği Danışmanlığı">Ağ ve Sistem Güvenliği Danışmanlığı</option>
+                                <option value="Uygulama Güvenliği Testleri ve Kod Analizi">Uygulama Güvenliği Testleri ve Kod Analizi</option>
+                                <option value="Siber Güvenlik Farkındalık Eğitimleri">Siber Güvenlik Farkındalık Eğitimleri</option>
+                                <option value="Bulut Güvenliği (Cloud Security)">Bulut Güvenliği (Cloud Security)</option>
+                                <option value="DDoS Koruma ve Önleme Hizmetleri">DDoS Koruma ve Önleme Hizmetleri</option>
+                                <option value="E-posta Güvenliği ve Kimlik Avı (Phishing) Simülasyonları">E-posta Güvenliği ve Kimlik Avı (Phishing) Simülasyonları</option>
+                                <option value="Güvenlik Duvarı (Firewall), IDS/IPS, VPN Kurulum ve Konfigürasyonu">Güvenlik Duvarı (Firewall), IDS/IPS, VPN Kurulum ve Konfigürasyonu</option>
+                                <option value="Mobil Uygulama Güvenlik Testleri">Mobil Uygulama Güvenlik Testleri</option>
+                                <option value="Sosyal Mühendislik Testleri">Sosyal Mühendislik Testleri</option>
+                                <option value="Log Yönetimi ve Denetimi">Log Yönetimi ve Denetimi</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="AppointmentDate" class="form-label">Tarih</label>
+                            <input type="datetime-local" class="form-control" id="AppointmentDate" name="AppointmentDate" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="Status" class="form-label">Durum</label>
+                            <select class="form-select" id="Status" name="Status" required>
+                                <option value="Beklemede">Beklemede</option>
+                                <option value="Onaylandı">Onaylandı</option>
+                                <option value="İptal Edildi">İptal Edildi</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="Notes" class="form-label">Notlar</label>
+                            <input type="text" class="form-control" id="Notes" name="Notes">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            // Yeni Randevu Ekle (AJAX)
+            $('#addAppointmentForm').submit(function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                var formData = $form.serialize();
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (result) {
+                        if (result && result.success) {
+                            $form[0].reset();
+                            showMessage('Randevu başarıyla eklendi!', 'success');
+                            setTimeout(function(){ location.reload(); }, 1200);
+                        } else if (result && result.error) {
+                            showMessage(result.error, 'danger');
+                        } else {
+                            showMessage('Randevu eklenirken bir hata oluştu.', 'danger');
+                        }
+                    },
+                    error: function () {
+                        showMessage('Randevu eklenirken bir hata oluştu.', 'danger');
+                    }
+                });
+            });
+            // Randevu Sil (AJAX)
+            $('.deleteAppointmentForm').submit(function (e) {
+                e.preventDefault();
+                if (!confirm('Bu randevuyu silmek istediğinizden emin misiniz?')) return;
+                var $form = $(this);
+                var formData = $form.serialize();
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (result) {
+                        if (result && result.success) {
+                            $form.closest('tr').fadeOut();
+                            showMessage('Randevu başarıyla silindi!', 'success');
+                        } else if (result && result.error) {
+                            showMessage(result.error, 'danger');
+                        } else {
+                            showMessage('Randevu silinirken bir hata oluştu.', 'danger');
+                        }
+                    },
+                    error: function () {
+                        showMessage('Randevu silinirken bir hata oluştu.', 'danger');
+                    }
+                });
+            });
+            function showMessage(msg, type) {
+                var html = `<div class="alert alert-${type}">${msg}</div>`;
+                $('.container').prepend(html);
+                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
+            }
+        });
+    </script>
+} 
