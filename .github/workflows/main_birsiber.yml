@@ -8,10 +8,6 @@ on:
     branches:
       - main
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   build-and-deploy:
     runs-on: windows-latest
@@ -33,16 +29,10 @@ jobs:
     - name: Publish
       run: dotnet publish --configuration Release --output ./publish --no-build
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_149A24716EC54913A1C5650323200439 }}
-        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F3EE32901CBB4A59A03491BCDBC950B5 }}
-        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7E87C283ED7E4462BF0D5F1A371EE37B }}
-
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v3
+      uses: azure/webapps-deploy@v2
       with:
         app-name: birSiber
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ./publish
         
