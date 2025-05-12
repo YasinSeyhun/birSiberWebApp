@@ -195,12 +195,13 @@ namespace BirSiberDanismanlik.Services
             return new Appointment
             {
                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                UserId = reader.GetString(reader.GetOrdinal("UserId")),
-                ServiceType = reader.GetString(reader.GetOrdinal("ServiceType")),
+                UserId = reader.IsDBNull(reader.GetOrdinal("UserId")) ? null : reader.GetString(reader.GetOrdinal("UserId")),
+                ServiceType = reader.IsDBNull(reader.GetOrdinal("ServiceType")) ? string.Empty : reader.GetString(reader.GetOrdinal("ServiceType")),
                 AppointmentDate = reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
-                Status = reader.GetString(reader.GetOrdinal("Status")),
+                Status = reader.IsDBNull(reader.GetOrdinal("Status")) ? string.Empty : reader.GetString(reader.GetOrdinal("Status")),
                 Notes = reader.IsDBNull(reader.GetOrdinal("Notes")) ? null : reader.GetString(reader.GetOrdinal("Notes")),
-                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"))
+                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+                InstructorId = reader.GetOrdinal("InstructorId") >= 0 && !reader.IsDBNull(reader.GetOrdinal("InstructorId")) ? reader.GetString(reader.GetOrdinal("InstructorId")) : null
             };
         }
     }
