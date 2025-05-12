@@ -86,5 +86,78 @@ namespace BirSiberDanismanlik.Controllers
                 return Json(new { success = false, error = "Hizmet silinirken bir hata oluştu." });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Management(string? searchString, string? sortOrder)
+        {
+            var query = _context.Appointments.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                query = query.Where(a => a.ServiceType.Contains(searchString));
+            }
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                if (sortOrder == "date")
+                    query = query.OrderByDescending(a => a.AppointmentDate);
+                else if (sortOrder == "status")
+                    query = query.OrderBy(a => a.Status);
+            }
+            var appointments = await query.ToListAsync();
+            return View(appointments);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAppointment(Appointment model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var appointments = await _context.Appointments.ToListAsync();
+                return View("Management", appointments);
+            }
+            model.CreatedAt = DateTime.UtcNow;
+            _context.Appointments.Add(model);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Management");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditAppointment(int id)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment == null) return NotFound();
+            return View(appointment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAppointment(int id, Appointment model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment == null) return NotFound();
+            appointment.UserId = model.UserId;
+            appointment.ServiceType = model.ServiceType;
+            appointment.AppointmentDate = model.AppointmentDate;
+            appointment.Status = model.Status;
+            appointment.Notes = model.Notes;
+            appointment.InstructorId = model.InstructorId;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Management");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAppointment(int id)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment != null)
+            {
+                _context.Appointments.Remove(appointment);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Management");
+        }
     }
 } 

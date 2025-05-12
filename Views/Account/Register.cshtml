@@ -23,6 +23,7 @@
                 <h3 class="mb-4 text-center">Kayıt Ol</h3>
                 <form asp-action="Register" method="post" id="registerForm">
                     @Html.AntiForgeryToken()
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="mb-3">
                         <label asp-for="FullName" class="form-label"></label>
                         <input asp-for="FullName" class="form-control" placeholder="Ad Soyad" />
@@ -69,36 +70,4 @@
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(function () {
-            $('#registerForm').submit(function (e) {
-                e.preventDefault();
-                var $form = $(this);
-                var formData = $form.serialize();
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function (result) {
-                        if (result && result.success) {
-                            $form[0].reset();
-                            showMessage('Kayıt başarılı! Giriş yapabilirsiniz.', 'success');
-                        } else if (result && result.error) {
-                            showMessage(result.error, 'danger');
-                        } else {
-                            showMessage('Kayıt sırasında bir hata oluştu.', 'danger');
-                        }
-                    },
-                    error: function (xhr) {
-                        showMessage('Kayıt sırasında bir hata oluştu.', 'danger');
-                    }
-                });
-            });
-            function showMessage(msg, type) {
-                var html = `<div class="alert alert-${type}">${msg}</div>`;
-                $('.card').prepend(html);
-                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
-            }
-        });
-    </script>
 } 

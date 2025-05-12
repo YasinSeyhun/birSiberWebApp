@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace BirSiberDanismanlik.Controllers
 {
@@ -25,17 +26,9 @@ namespace BirSiberDanismanlik.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var appointments = await _context.Appointments.OrderByDescending(a => a.AppointmentDate).ToListAsync();
             var users = await _userManager.Users.ToListAsync();
-            var userRoles = new Dictionary<string, string>();
-            foreach (var user in users)
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                userRoles[user.Id] = roles.FirstOrDefault() ?? "";
-            }
-            ViewBag.Users = users;
-            ViewBag.UserRoles = userRoles;
-            return View(appointments);
+            var appointments = await _context.Appointments.ToListAsync();
+            return View(Tuple.Create(users, appointments));
         }
 
         public IActionResult Login()
@@ -199,6 +192,8 @@ namespace BirSiberDanismanlik.Controllers
             public string UserName { get; set; }
             public string Email { get; set; }
             public string Role { get; set; }
+            public string FullName { get; set; }
+            public string PhoneNumber { get; set; }
         }
 
         [HttpGet]
@@ -215,7 +210,9 @@ namespace BirSiberDanismanlik.Controllers
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Role = userRoles.FirstOrDefault() ?? "User"
+                Role = userRoles.FirstOrDefault() ?? "User",
+                FullName = user.FullName,
+                PhoneNumber = user.PhoneNumber
             });
         }
 
@@ -234,6 +231,8 @@ namespace BirSiberDanismanlik.Controllers
             if (user == null) return NotFound();
             user.UserName = model.UserName;
             user.Email = model.Email;
+            user.FullName = model.FullName;
+            user.PhoneNumber = model.PhoneNumber;
             await _userManager.UpdateAsync(user);
             var currentRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, currentRoles);
@@ -249,9 +248,9 @@ namespace BirSiberDanismanlik.Controllers
             return View(user);
         }
 
-        [HttpPost, ActionName("DeleteUser")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteUserConfirmed(string id)
+        public async Task<IActionResult> DeleteUser(string id, IFormCollection form)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)

@@ -1,0 +1,23 @@
+@model BirSiberDanismanlik.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Kullanıcıyı Sil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Kullanıcıyı Sil</h2>
+<div class="alert alert-danger">Bu kullanıcıyı silmek istediğinize emin misiniz?</div>
+<div class="card bg-dark text-light mb-3">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Kullanıcı Adı</dt>
+            <dd class="col-sm-9">@Model.UserName</dd>
+            <dt class="col-sm-3">E-posta</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+        </dl>
+        <form asp-action="DeleteUser" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-danger">Evet, Sil</button>
+            <a asp-action="Index" class="btn btn-secondary">İptal</a>
+        </form>
+    </div>
+</div> 

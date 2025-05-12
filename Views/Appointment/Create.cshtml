@@ -82,37 +82,4 @@
 </div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        $(function () {
-            $('#appointmentCreateForm').submit(function (e) {
-                e.preventDefault();
-                var $form = $(this);
-                var formData = $form.serialize();
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function (result) {
-                        if (result && result.success) {
-                            $form[0].reset();
-                            showMessage('Randevu başarıyla oluşturuldu!', 'success');
-                            setTimeout(function(){ window.location.href = '/Appointment/Index'; }, 1200);
-                        } else if (result && result.error) {
-                            showMessage(result.error, 'danger');
-                        } else {
-                            showMessage('Randevu oluşturulurken bir hata oluştu.', 'danger');
-                        }
-                    },
-                    error: function (xhr) {
-                        showMessage('Randevu oluşturulurken bir hata oluştu.', 'danger');
-                    }
-                });
-            });
-            function showMessage(msg, type) {
-                var html = `<div class="alert alert-${type}">${msg}</div>`;
-                $('.card').prepend(html);
-                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
-            }
-        });
-    </script>
 } 

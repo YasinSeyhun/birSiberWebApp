@@ -34,6 +34,16 @@
                                         <span class="badge rounded-pill @(appt.Status=="Onaylandı" ? "bg-success" : appt.Status=="İptal Edildi" ? "bg-danger" : "bg-warning text-dark")">@appt.Status</span>
                                     </div>
                                     <hr class="border-secondary my-2" />
+                                    @* Eğitmen satırı: Sadece eğitmen varsa göster *@
+                                    @if (appt.InstructorId != null && ViewBag.InstructorDict != null && ViewBag.InstructorDict.ContainsKey(appt.InstructorId))
+                                    {
+                                        <div class="mb-2 small text-secondary">
+                                            <i class="fa fa-user-tie me-1"></i> Eğitmen: <span class="fw-semibold">@ViewBag.InstructorDict[appt.InstructorId]</span>
+                                        </div>
+                                    }
+                                    <div class="mb-2 small text-secondary">
+                                        <i class="fa fa-calendar-plus me-1"></i> Oluşturulma: @appt.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                                    </div>
                                     <p class="mb-1"><i class="fa fa-clock me-2"></i> @appt.AppointmentDate.ToString("dd.MM.yyyy HH:mm")</p>
                                     @if (!string.IsNullOrEmpty(appt.Notes))
                                     {

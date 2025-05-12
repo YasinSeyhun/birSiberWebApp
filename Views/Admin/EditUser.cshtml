@@ -1,0 +1,40 @@
+@model BirSiberDanismanlik.Controllers.AdminController.EditUserViewModel
+@{
+    ViewData["Title"] = "Kullanıcıyı Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var roleList = new List<SelectListItem> {
+        new SelectListItem { Text = "User", Value = "User" },
+        new SelectListItem { Text = "Admin", Value = "Admin" },
+        new SelectListItem { Text = "Çalışan", Value = "Çalışan" }
+    };
+}
+<h2>Kullanıcıyı Düzenle</h2>
+<form asp-action="EditUser" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label class="form-label">Ad Soyad</label>
+        <input asp-for="FullName" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Kullanıcı Adı</label>
+        <input asp-for="UserName" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">E-posta</label>
+        <input asp-for="Email" class="form-control" type="email" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Telefon Numarası</label>
+        <input asp-for="PhoneNumber" class="form-control" type="tel" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Rol</label>
+        <select asp-for="Role" asp-items="roleList" class="form-select"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

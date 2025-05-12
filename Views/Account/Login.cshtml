@@ -11,6 +11,10 @@
 {
     <div class="alert alert-danger">@TempData["RegisterError"]</div>
 }
+@if (TempData["LoginError"] != null)
+{
+    <div class="alert alert-danger">@TempData["LoginError"]</div>
+}
 <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #10131a;">
     <div class="row w-100">
         <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
@@ -23,8 +27,9 @@
         <div class="col-md-6 d-flex align-items-center justify-content-center">
             <div class="card p-5 shadow-lg bg-dark text-white w-100" style="max-width: 400px;">
                 <h3 class="mb-4 text-center">Giriş Yap</h3>
-                <form method="post" asp-action="Login" asp-controller="Account" id="loginForm">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form method="post" asp-action="Login" asp-controller="Account">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="mb-3">
                         <label asp-for="Email" class="form-label"></label>
                         <input asp-for="Email" class="form-control" placeholder="E-posta" />
@@ -34,10 +39,6 @@
                         <label asp-for="Password" class="form-label"></label>
                         <input asp-for="Password" class="form-control" placeholder="Şifre" />
                         <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input asp-for="RememberMe" class="form-check-input" />
-                        <label asp-for="RememberMe" class="form-check-label"></label>
                     </div>
                     <button class="btn btn-primary w-100 mb-3" type="submit">Giriş Yap</button>
                     <a href="/signin-google" class="btn btn-outline-light w-100 mb-3">
@@ -55,36 +56,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(function () {
-            $('#loginForm').submit(function (e) {
-                e.preventDefault();
-                var $form = $(this);
-                var formData = $form.serialize();
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function (result) {
-                        if (result && result.success) {
-                            showMessage('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
-                            setTimeout(function(){ window.location.href = '/'; }, 1200);
-                        } else if (result && result.error) {
-                            showMessage(result.error, 'danger');
-                        } else {
-                            showMessage('Giriş sırasında bir hata oluştu.', 'danger');
-                        }
-                    },
-                    error: function (xhr) {
-                        showMessage('Giriş sırasında bir hata oluştu.', 'danger');
-                    }
-                });
-            });
-            function showMessage(msg, type) {
-                var html = `<div class=\"alert alert-${type}\">${msg}</div>`;
-                $('.card').prepend(html);
-                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
-            }
-        });
-    </script>
 } 

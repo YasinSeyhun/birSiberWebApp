@@ -1,0 +1,104 @@
+@model Tuple<List<BirSiberDanismanlik.Models.ApplicationUser>, List<BirSiberDanismanlik.Models.Appointment>>
+@{
+    ViewData["Title"] = "Admin Paneli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var users = Model?.Item1 ?? new List<BirSiberDanismanlik.Models.ApplicationUser>();
+    var appointments = Model?.Item2 ?? new List<BirSiberDanismanlik.Models.Appointment>();
+}
+<div class="container-fluid py-4 px-0">
+    <h2 class="mb-4">Admin Paneli</h2>
+    <div class="row gx-2 gy-4">
+        <div class="col-12 col-lg-8 d-flex">
+            <div class="card flex-fill shadow-lg rounded-4 bg-dark text-light h-100 w-100 px-1" style="min-width:0;">
+                <div class="card-header border-bottom border-secondary d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fa fa-users"></i> Kullanıcılar</h4>
+                    <a asp-action="CreateUser" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Yeni Kullanıcı</a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-dark table-hover table-bordered align-middle mb-0" style="width: auto; min-width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kullanıcı Adı</th>
+                                <th>E-posta</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in users)
+                            {
+                                <tr>
+                                    <td>@user.Id</td>
+                                    <td>@user.UserName</td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        <a asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                                        <a asp-action="UserDetails" asp-route-id="@user.Id" class="btn btn-info btn-sm">Detay</a>
+                                        <a asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-danger btn-sm">Sil</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card shadow-lg rounded-4 bg-dark text-light">
+                <div class="card-header border-bottom border-secondary">
+                    <h4 class="mb-0"><i class="fa fa-calendar-check"></i> Randevular</h4>
+                </div>
+                <div class="list-group list-group-flush">
+                    @foreach (var appt in appointments)
+                    {
+                        <div class="list-group-item bg-dark text-light border-secondary">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <small class="text-muted">#@appt.Id</small>
+                                <span class="badge @(appt.Status == "Onaylandı" ? "bg-success" : appt.Status == "İptal" ? "bg-danger" : "bg-warning")">
+                                    @appt.Status
+                                </span>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Kullanıcı:</strong> @appt.UserId
+                            </div>
+                            <div class="mb-2">
+                                <strong>Hizmet:</strong> @appt.ServiceType
+                            </div>
+                            <div class="mb-2">
+                                <strong>Tarih:</strong> @appt.AppointmentDate.ToString("dd.MM.yyyy HH:mm")
+                            </div>
+                            @if (!string.IsNullOrEmpty(appt.Notes))
+                            {
+                                <div class="mb-2">
+                                    <strong>Notlar:</strong> @appt.Notes
+                                </div>
+                            }
+                            <div class="btn-group btn-group-sm mt-2">
+                                <form asp-action="ApproveAppointment" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@appt.Id" />
+                                    <button type="submit" class="btn btn-success" title="Onayla"><i class="fa fa-check"></i></button>
+                                </form>
+                                <form asp-action="CancelAppointment" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@appt.Id" />
+                                    <button type="submit" class="btn btn-danger" title="İptal"><i class="fa fa-times"></i></button>
+                                </form>
+                                <a asp-controller="Appointment" asp-action="Edit" asp-route-id="@appt.Id" class="btn btn-warning" title="Düzenle"><i class="fa fa-edit"></i></a>
+                                <a asp-controller="Appointment" asp-action="Details" asp-route-id="@appt.Id" class="btn btn-info" title="Detay"><i class="fa fa-eye"></i></a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Tooltip'leri aktifleştir
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+} 

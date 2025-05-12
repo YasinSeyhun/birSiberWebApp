@@ -32,15 +32,27 @@ namespace BirSiberDanismanlik.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
+            {
+                TempData["LoginError"] = string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 return View(model);
+            }
 
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                TempData["LoginError"] = "Geçersiz giriş denemesi.";
+                return View(model);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
             if (result.Succeeded)
             {
+                user.LastLoginAt = DateTime.UtcNow;
+                await _userManager.UpdateAsync(user);
                 return RedirectToAction("Index", "Home");
             }
 
-            ModelState.AddModelError(string.Empty, "Geçersiz giriş denemesi.");
+            TempData["LoginError"] = "Geçersiz giriş denemesi.";
             return View(model);
         }
 
@@ -54,9 +66,11 @@ namespace BirSiberDanismanlik.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            System.Diagnostics.Debug.WriteLine("REGISTER ACTION ÇALIŞTI");
             if (!ModelState.IsValid)
+            {
+                TempData["RegisterError"] = string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 return View(model);
+            }
 
             var user = new ApplicationUser
             {
@@ -70,17 +84,13 @@ namespace BirSiberDanismanlik.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync(user, false);
                 TempData["RegisterSuccess"] = "Kayıt başarılı! Giriş yapabilirsiniz.";
                 return RedirectToAction("Login", "Account");
             }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-                System.Diagnostics.Debug.WriteLine("REGISTER ERROR: " + error.Description);
-            }
-            throw new Exception("Kayıt başarısız: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+            TempData["RegisterError"] = string.Join("; ", result.Errors.Select(e => e.Description));
+            return View(model);
         }
 
         [HttpPost]

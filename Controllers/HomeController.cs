@@ -30,6 +30,10 @@ namespace BirSiberDanismanlik.Controllers
                     .OrderByDescending(a => a.AppointmentDate)
                     .ToListAsync();
                 ViewBag.Appointments = appts;
+                // Eğitmen isimleri için dictionary oluştur
+                var instructorIds = appts.Where(a => !string.IsNullOrEmpty(a.InstructorId)).Select(a => a.InstructorId).Distinct().ToList();
+                var instructors = await _userManager.Users.Where(u => instructorIds.Contains(u.Id)).ToListAsync();
+                ViewBag.InstructorDict = instructors.ToDictionary(i => i.Id, i => i.FullName ?? i.UserName);
             }
             return View();
         }

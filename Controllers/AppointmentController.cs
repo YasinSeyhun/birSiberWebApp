@@ -61,7 +61,9 @@ namespace BirSiberDanismanlik.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var appt = await _context.Appointments.FindAsync(id);
-            if (appt == null || appt.UserId != _userManager.GetUserId(User)) return NotFound();
+            var isAdmin = User.IsInRole("Admin");
+            if (appt == null || (!isAdmin && appt.UserId != _userManager.GetUserId(User))) return NotFound();
+            ViewBag.Instructors = await _userManager.GetUsersInRoleAsync("Çalışan");
             return View(appt);
         }
 
@@ -69,13 +71,18 @@ namespace BirSiberDanismanlik.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Appointment model)
         {
-            if (!ModelState.IsValid) return View(model);
+            ViewBag.Instructors = await _userManager.GetUsersInRoleAsync("Çalışan");
             var appt = await _context.Appointments.FindAsync(id);
-            if (appt == null || appt.UserId != _userManager.GetUserId(User)) return NotFound();
+            var isAdmin = User.IsInRole("Admin");
+            if (appt == null || (!isAdmin && appt.UserId != _userManager.GetUserId(User))) return NotFound();
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
             appt.ServiceType = model.ServiceType;
             appt.AppointmentDate = model.AppointmentDate;
             appt.Status = model.Status;
             appt.Notes = model.Notes;
+            appt.InstructorId = model.InstructorId;
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }

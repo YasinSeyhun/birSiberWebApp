@@ -25,9 +25,9 @@
             <div class="card bg-dark text-light shadow-lg border-0">
                 <div class="card-body p-4">
                     <h2 class="mb-4 fw-bold text-center">Randevu Düzenle</h2>
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
                     <form asp-action="Edit" method="post" autocomplete="off" id="appointmentEditForm">
                         <input type="hidden" asp-for="Id" />
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <div class="mb-3">
                             <label asp-for="ServiceType" class="form-label"></label>
                             <select asp-for="ServiceType" class="form-select bg-dark text-light border-secondary">
@@ -50,8 +50,33 @@
                         </div>
                         <div class="mb-3">
                             <label asp-for="Status" class="form-label"></label>
-                            <input asp-for="Status" class="form-control bg-dark text-light border-secondary" />
+                            <select asp-for="Status" class="form-select bg-dark text-light border-secondary">
+                                <option value="Beklemede">Beklemede</option>
+                                <option value="Onaylandı">Onaylandı</option>
+                                <option value="İptal Edildi">İptal Edildi</option>
+                            </select>
                             <span asp-validation-for="Status" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Eğitmen Seçiniz</label>
+                            <select asp-for="InstructorId" class="form-select bg-dark text-light border-secondary">
+                                <option value="">Eğitmen Seçiniz</option>
+                                @if (ViewBag.Instructors != null)
+                                {
+                                    foreach (var instructor in ViewBag.Instructors)
+                                    {
+                                        if (Model.InstructorId == instructor.Id)
+                                        {
+                                            <option value="@instructor.Id" selected>@instructor.FullName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@instructor.Id">@instructor.FullName</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="InstructorId" class="text-danger small"></span>
                         </div>
                         <button type="submit" class="btn btn-warning w-100 py-2 fw-bold">Kaydet</button>
                         <a asp-action="Index" class="btn btn-outline-light w-100 mt-2">İptal</a>
@@ -63,36 +88,4 @@
 </div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        $(function () {
-            $('#appointmentEditForm').submit(function (e) {
-                e.preventDefault();
-                var $form = $(this);
-                var formData = $form.serialize();
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function (result) {
-                        if (result && result.success) {
-                            showMessage('Randevu başarıyla güncellendi!', 'success');
-                            setTimeout(function(){ window.location.href = '/Appointment/Index'; }, 1200);
-                        } else if (result && result.error) {
-                            showMessage(result.error, 'danger');
-                        } else {
-                            showMessage('Randevu güncellenirken bir hata oluştu.', 'danger');
-                        }
-                    },
-                    error: function (xhr) {
-                        showMessage('Randevu güncellenirken bir hata oluştu.', 'danger');
-                    }
-                });
-            });
-            function showMessage(msg, type) {
-                var html = `<div class="alert alert-${type}">${msg}</div>`;
-                $('.card').prepend(html);
-                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
-            }
-        });
-    </script>
 } 

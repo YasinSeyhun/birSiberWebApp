@@ -1,0 +1,29 @@
+@model BirSiberDanismanlik.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Kullanıcı Detayları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Kullanıcı Detayları</h2>
+<div class="card bg-dark text-light">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+            <dt class="col-sm-3">Kullanıcı Adı</dt>
+            <dd class="col-sm-9">@Model.UserName</dd>
+            <dt class="col-sm-3">E-posta</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+            <dt class="col-sm-3">Ad Soyad</dt>
+            <dd class="col-sm-9">@Model.FullName</dd>
+            <dt class="col-sm-3">Telefon</dt>
+            <dd class="col-sm-9">@Model.PhoneNumber</dd>
+            <dt class="col-sm-3">Rol</dt>
+            <dd class="col-sm-9">@Model.Role</dd>
+            <dt class="col-sm-3">Oluşturulma</dt>
+            <dd class="col-sm-9">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+            <dt class="col-sm-3">Son Giriş</dt>
+            <dd class="col-sm-9">@(Model.LastLoginAt?.ToString("dd.MM.yyyy HH:mm") ?? "-")</dd>
+        </dl>
+        <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+    </div>
+</div> 

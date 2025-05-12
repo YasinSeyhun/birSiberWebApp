@@ -37,7 +37,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var appointment in Model)
+                                @foreach (var appointment in Model ?? new List<BirSiberDanismanlik.Models.Appointment>())
                                 {
                                     <tr>
                                         <td>@appointment.Id</td>
@@ -117,63 +117,4 @@
 </div>
 
 @section Scripts {
-    <script>
-        $(function () {
-            // Yeni Randevu Ekle (AJAX)
-            $('#addAppointmentForm').submit(function (e) {
-                e.preventDefault();
-                var $form = $(this);
-                var formData = $form.serialize();
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function (result) {
-                        if (result && result.success) {
-                            $form[0].reset();
-                            showMessage('Randevu başarıyla eklendi!', 'success');
-                            setTimeout(function(){ location.reload(); }, 1200);
-                        } else if (result && result.error) {
-                            showMessage(result.error, 'danger');
-                        } else {
-                            showMessage('Randevu eklenirken bir hata oluştu.', 'danger');
-                        }
-                    },
-                    error: function () {
-                        showMessage('Randevu eklenirken bir hata oluştu.', 'danger');
-                    }
-                });
-            });
-            // Randevu Sil (AJAX)
-            $('.deleteAppointmentForm').submit(function (e) {
-                e.preventDefault();
-                if (!confirm('Bu randevuyu silmek istediğinizden emin misiniz?')) return;
-                var $form = $(this);
-                var formData = $form.serialize();
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: formData,
-                    success: function (result) {
-                        if (result && result.success) {
-                            $form.closest('tr').fadeOut();
-                            showMessage('Randevu başarıyla silindi!', 'success');
-                        } else if (result && result.error) {
-                            showMessage(result.error, 'danger');
-                        } else {
-                            showMessage('Randevu silinirken bir hata oluştu.', 'danger');
-                        }
-                    },
-                    error: function () {
-                        showMessage('Randevu silinirken bir hata oluştu.', 'danger');
-                    }
-                });
-            });
-            function showMessage(msg, type) {
-                var html = `<div class="alert alert-${type}">${msg}</div>`;
-                $('.container').prepend(html);
-                setTimeout(function () { $('.alert').fadeOut(500, function () { $(this).remove(); }); }, 4000);
-            }
-        });
-    </script>
 } 
