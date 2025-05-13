@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,23 +22,38 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add Identity
+// Add Identity (cookie authentication dahil)
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.SignIn.RequireConfirmedAccount = false;
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Add Google OAuth2
-builder.Services.AddAuthentication()
-    .AddGoogle(options =>
+// Sadece JWT Authentication ekle
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        var configuration = builder.Configuration;
-        var googleClientId = configuration["Authentication:Google:ClientId"]!;
-        var googleClientSecret = configuration["Authentication:Google:ClientSecret"]!;
-        options.ClientId = googleClientId;
-        options.ClientSecret = googleClientSecret;
-    });
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+    };
+})
+.AddGoogle(options =>
+{
+    var configuration = builder.Configuration;
+    options.ClientId = configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+    options.CallbackPath = "/signin-google";
+});
 
 // Add Services
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
@@ -47,11 +66,19 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration["Redis:Configuration"];
 });
 builder.Services.AddHostedService<ReminderBackgroundService>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/Login";
+    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
+    options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+});
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BirSiberDanismanlik API", Version = "v1" });
 });
 
 var app = builder.Build();
@@ -71,6 +98,26 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Swagger erişim kontrolü middleware
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/swagger"))
+    {
+        var user = context.User;
+        if (user == null || !user.Identity.IsAuthenticated || !(user.IsInRole("Admin") || user.IsInRole("Çalışan") || user.IsInRole("Calisan")))
+        {
+            context.Response.StatusCode = 403;
+            await context.Response.WriteAsync("<html><body style='background:#181818;color:#fff;text-align:center;padding:60px;'><h2>Erisim Reddedildi</h2><p>Swagger arayüzüne erisim yetkiniz yok.</p><a href='/' style='color:#6cf;'>Ana Sayfa</a></body></html>");
+            return;
+        }
+    }
+    await next();
+});
+
+// Swagger middleware
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BirSiberDanismanlik API V1"));
 
 // app.MapControllerRoute(
 //     name: "areas",

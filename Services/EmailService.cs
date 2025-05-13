@@ -1,25 +1,41 @@
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using SendGrid;
-using SendGrid.Helpers.Mail;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace BirSiberDanismanlik.Services
 {
     public class EmailService
     {
-        private readonly string _apiKey;
-        public EmailService(IConfiguration configuration)
+        private readonly IConfiguration _config;
+        public EmailService(IConfiguration config)
         {
-            _apiKey = configuration["SendGrid:ApiKey"]!;
+            _config = config;
         }
 
-        public async Task SendEmailAsync(string to, string subject, string body)
+        public async Task SendEmailAsync(string to, string subject, string body, bool isHtml = false)
         {
-            var client = new SendGridClient(_apiKey);
-            var from = new EmailAddress("no-reply@birSiberDanismanlik.com", "Bir Siber Danışmanlık");
-            var toEmail = new EmailAddress(to);
-            var msg = MailHelper.CreateSingleEmail(from, toEmail, subject, body, body);
-            await client.SendEmailAsync(msg);
+            var emailConfig = _config.GetSection("Email");
+            var smtpClient = new SmtpClient(emailConfig["Host"])
+            {
+                Port = int.Parse(emailConfig["Port"]),
+                Credentials = new NetworkCredential(emailConfig["User"], emailConfig["Pass"]),
+                EnableSsl = bool.Parse(emailConfig["EnableSsl"])
+            };
+
+            // No-reply gönderen
+            var fromAddress = new MailAddress(emailConfig["User"], "birSiber Danışmanlık | No-Reply");
+
+            var mailMessage = new MailMessage
+            {
+                From = fromAddress,
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = isHtml
+            };
+            mailMessage.To.Add(to);
+
+            await smtpClient.SendMailAsync(mailMessage);
         }
     }
 } 

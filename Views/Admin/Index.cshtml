@@ -54,12 +54,12 @@
                         <div class="list-group-item bg-dark text-light border-secondary">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <small class="text-muted">#@appt.Id</small>
-                                <span class="badge @(appt.Status == "Onaylandı" ? "bg-success" : appt.Status == "İptal" ? "bg-danger" : "bg-warning")">
+                                <span class="badge @(appt.Status == "Onaylandı" ? "bg-success" : appt.Status == "İptal Edildi" ? "bg-danger text-white fw-bold px-3 py-2" : "bg-warning text-dark")">
                                     @appt.Status
                                 </span>
                             </div>
                             <div class="mb-2">
-                                <strong>Kullanıcı:</strong> @appt.UserId
+                                <strong>Kullanıcı:</strong> @(users.FirstOrDefault(u => u.Id == appt.UserId)?.UserName ?? appt.UserId)
                             </div>
                             <div class="mb-2">
                                 <strong>Hizmet:</strong> @appt.ServiceType
@@ -84,6 +84,10 @@
                                 </form>
                                 <a asp-controller="Appointment" asp-action="Edit" asp-route-id="@appt.Id" class="btn btn-warning" title="Düzenle"><i class="fa fa-edit"></i></a>
                                 <a asp-controller="Appointment" asp-action="Details" asp-route-id="@appt.Id" class="btn btn-info" title="Detay"><i class="fa fa-eye"></i></a>
+                                <form asp-action="DeleteAppointment" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@appt.Id" />
+                                    <button type="submit" class="btn btn-outline-danger" title="Sil"><i class="fa fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                     }

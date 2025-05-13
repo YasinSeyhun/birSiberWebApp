@@ -12,5 +12,6 @@ namespace BirSiberDanismanlik.Models
         public string? Notes { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? InstructorId { get; set; }
+        public bool IsReminderSent { get; set; } = false;
     }
 } 

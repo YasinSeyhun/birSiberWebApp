@@ -3,20 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - birSiberDanismanlik</title>
+    <title>@ViewData["Title"] - birSiber Consultancy</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/birSiberDanismanlik.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" type="image/png" href="~/images/logo.png" />
 </head>
 <body class="bg-dark text-light">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
             <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/logo.png" alt="Logo" class="me-2" style="background:rgba(255,255,255,0.05);border-radius:50%;" />
-                    <span class="fw-bold">birSiberDanismanlik</span>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo.png" alt="BirSiber Logo" height="40" />
+                    <span class="fw-bold ms-2">birSiber Consultancy</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -83,6 +84,12 @@
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">Profilim</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Appointment" asp-action="Index">Randevularım</a></li>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-info" href="/api/CacheTest/memory/testkey" target="_blank"><i class="fas fa-microchip"></i> Memory Cache Test</a></li>
+                                        <li><a class="dropdown-item text-warning" href="/api/CacheTest/redis/testkey" target="_blank"><i class="fas fa-database"></i> Redis Cache Test</a></li>
+                                    }
                                     @if (User.IsInRole("Çalışan") || User.IsInRole("Calisan"))
                                     {
                                         <li>

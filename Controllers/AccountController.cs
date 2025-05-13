@@ -47,7 +47,7 @@ namespace BirSiberDanismanlik.Controllers
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
             if (result.Succeeded)
             {
-                user.LastLoginAt = DateTime.UtcNow;
+                user.LastLoginAt = DateTime.Now;
                 await _userManager.UpdateAsync(user);
                 return RedirectToAction("Index", "Home");
             }
@@ -74,10 +74,11 @@ namespace BirSiberDanismanlik.Controllers
 
             var user = new ApplicationUser
             {
-                UserName = model.Email,
+                UserName = model.Username,
                 Email = model.Email,
                 FullName = model.FullName,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                CreatedAt = DateTime.Now
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

@@ -18,11 +18,10 @@
 <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #10131a;">
     <div class="row w-100">
         <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
-            <div style="background:#10131a;display:inline-block;padding:20px;border-radius:16px;">
-                <img src="~/images/logo.png" alt="Logo" class="img-fluid mb-4" style="max-width: 320px;">
+            <div class="text-center mb-4">
+                <img src="~/images/logo-yazi.png" alt="BirSiber Logo" style="max-width: 260px; width: 100%;" class="mb-3" />
+                <p class="text-secondary">Cybersecurity & IT Consultancy</p>
             </div>
-            <h2 class="text-white fw-bold">birSiber</h2>
-            <p class="text-secondary">CYBER SECURITY SOLUTIONS</p>
         </div>
         <div class="col-md-6 d-flex align-items-center justify-content-center">
             <div class="card p-5 shadow-lg bg-dark text-white w-100" style="max-width: 400px;">
@@ -31,7 +30,7 @@
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="mb-3">
-                        <label asp-for="Email" class="form-label"></label>
+                        <label class="form-label">E-Posta</label>
                         <input asp-for="Email" class="form-control" placeholder="E-posta" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>

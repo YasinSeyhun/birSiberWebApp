@@ -14,9 +14,10 @@
 <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #10131a;">
     <div class="row w-100">
         <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
-            <img src="~/images/logo.png" alt="Logo" class="img-fluid mb-4" style="max-width: 320px;">
-            <h2 class="text-white fw-bold">birSiber</h2>
-            <p class="text-secondary">CYBER SECURITY SOLUTIONS</p>
+            <div class="text-center mb-4">
+                <img src="~/images/logo-yazi.png" alt="BirSiber Logo" style="max-width: 260px; width: 100%;" class="mb-3" />
+                <p class="text-secondary">Cybersecurity & IT Consultancy</p>
+            </div>
         </div>
         <div class="col-md-6 d-flex align-items-center justify-content-center">
             <div class="card p-5 shadow-lg bg-dark text-white w-100" style="max-width: 400px;">
@@ -44,11 +45,10 @@
                         <input asp-for="PhoneNumber" class="form-control" placeholder="Telefon Numarası" />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label asp-for="Password" class="form-label"></label>
                         <input asp-for="Password" class="form-control" placeholder="Şifre" />
                         <span asp-validation-for="Password" class="text-danger"></span>
-                        <small class="text-muted">Şifre en az 8 karakter uzunluğunda olmalı ve en az bir büyük harf, bir küçük harf, bir rakam ve bir özel karakter içermelidir.</small>
                     </div>
                     <div class="mb-3">
                         <label asp-for="ConfirmPassword" class="form-label"></label>
