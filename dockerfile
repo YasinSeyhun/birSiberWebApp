@@ -1,11 +1,13 @@
 # Build aşaması
-FROM mcr.microsoft.com/dotnet/sdk:9.0-preview AS build
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
 COPY . .
-RUN dotnet publish -c Release -o out
+RUN dotnet restore
+RUN dotnet publish -c Release -o /app/publish
 
-# Runtime aşaması
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview
+# Çalıştırma aşaması
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
-COPY --from=build /app/out .
+COPY --from=build /app/publish .
+EXPOSE 80
 ENTRYPOINT ["dotnet", "BirSiberDanismanlik.dll"]

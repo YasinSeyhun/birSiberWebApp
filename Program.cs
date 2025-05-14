@@ -47,13 +47,13 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 })
-.AddGoogle(options =>
-{
-    var configuration = builder.Configuration;
+    .AddGoogle(options =>
+    {
+        var configuration = builder.Configuration;
     options.ClientId = configuration["Authentication:Google:ClientId"];
     options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
     options.CallbackPath = "/signin-google";
-});
+    });
 
 // Add Services
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
